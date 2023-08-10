@@ -99,6 +99,11 @@ class Vanak {
 	 */
 	private function load_dependencies() {
 
+        /**
+         * Require Nuxy to project for managing setup page
+         */
+        require_once(dirname(__FILE__) . '/nuxy/NUXY.php');
+
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
@@ -157,7 +162,11 @@ class Vanak {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-	}
+        //        Action hook for admin menu
+        $this->loader->add_filter('wpcfto_options_page_setup', $plugin_admin, 'options_page');
+
+
+    }
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality
