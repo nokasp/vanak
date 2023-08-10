@@ -36,7 +36,6 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'VANAK_VERSION', '0.1.0' );
-define("URL", admin_url('plugins.php'));
 define("VANAK_URL", plugin_dir_url(__FILE__));
 define("VANAK_PATH", plugin_dir_path(__FILE__));
 
