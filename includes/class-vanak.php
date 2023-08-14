@@ -165,7 +165,7 @@ class Vanak {
         //        Action hook for admin menu
         $this->loader->add_filter('wpcfto_options_page_setup', $plugin_admin, 'options_page');
 
-
+        $this->loader->add_action('wp_ajax_wpcfto_save_settings', $plugin_admin, 'welcome');
     }
 
 	/**

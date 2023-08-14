@@ -102,6 +102,8 @@ class Vanak_Admin {
 
     public function options_page($setups)
     {
+        $options = get_option('vanak_settings');
+
         $ssl = false;
         if (!empty($_SERVER['HTTPS'])) {
             $ssl = true;
@@ -157,9 +159,14 @@ class Vanak_Admin {
                             'type' => 'text',
                             'label' => esc_html__("Token", "vanak"),
                             'value' => get_option("vanak_token"),
-/*                            'placeholder' => ''*/
                             'description' => __("Please enter the token received from the <code>BotFather</code> here.", "vanak"),
                         ),
+						'active' => array(
+							'type' => 'checkbox',
+							'label' => esc_html__("Active Bot", "vanak"),
+							'description' => __("Activate or Deactivate Bot", "vanak"),
+							'group' => 'started',
+						),
                     )
                 ),
                 'bot_options' => array(
@@ -208,6 +215,22 @@ class Vanak_Admin {
         );
 
         return $setups;
+    }
+
+	public function welcome()
+    {
+		$request_body = file_get_contents( 'php://input' );
+		$request_body = json_decode( $request_body, true );
+		$token = $request_body['bot_connection']['fields']['token']['value'];
+
+		$is_welcome = get_option("vanak_welcome");
+
+		if (!empty($token) && !$is_welcome){
+			update_option('vanak_welcome', true);
+		} else {
+			update_option('vanak_welcome', false);
+		}
+
     }
 
 }
