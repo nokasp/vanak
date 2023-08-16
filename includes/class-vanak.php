@@ -99,6 +99,11 @@ class Vanak {
 	 */
 	private function load_dependencies() {
 
+		/**
+		 * Require JDF to project for jalali date format
+		 */
+		require_once(dirname(__FILE__) . '/jdf.php');
+
         /**
          * Include BaleApiLibrary to project
          */
