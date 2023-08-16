@@ -167,11 +167,12 @@ class Vanak {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-        //        Action hook for admin menu
-        $this->loader->add_filter('wpcfto_options_page_setup', $plugin_admin, 'options_page');
+		//	Action hook for admin menu
+		$this->loader->add_filter('wpcfto_options_page_setup', $plugin_admin, 'options_page');
 
-        $this->loader->add_action('wp_ajax_wpcfto_save_settings', $plugin_admin, 'welcome');
-    }
+		//	Action hook for setWebhook
+		$this->loader->add_action('wp_ajax_wpcfto_save_settings', $plugin_admin, 'welcome');
+	}
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality
