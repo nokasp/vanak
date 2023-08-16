@@ -165,7 +165,6 @@ class Vanak_Admin {
 							'type' => 'checkbox',
 							'label' => esc_html__("Active Bot", "vanak"),
 							'description' => __("Activate or Deactivate Bot", "vanak"),
-							'group' => 'started',
 						),
                     )
                 ),
