@@ -273,7 +273,7 @@ class Vanak_Admin {
 	public function admin_login($user_login, $user)
 	{
 		try {
-			if ( !user_can( $user, 'manage_options' ) ) {
+			if ( !user_can( $user, 'manage_options' ) or !stm_wpcfto_get_options('vanak_settings')["admin_login"]) {
 				return false;
 			}
 
