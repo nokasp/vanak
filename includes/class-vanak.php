@@ -99,6 +99,11 @@ class Vanak {
 	 */
 	private function load_dependencies() {
 
+		/**
+		 * Require JDF to project for jalali date format
+		 */
+		require_once(dirname(__FILE__) . '/jdf.php');
+
         /**
          * Include BaleApiLibrary to project
          */
@@ -167,11 +172,15 @@ class Vanak {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-        //        Action hook for admin menu
-        $this->loader->add_filter('wpcfto_options_page_setup', $plugin_admin, 'options_page');
+		//	Action hook for admin menu
+		$this->loader->add_filter('wpcfto_options_page_setup', $plugin_admin, 'options_page');
 
-        $this->loader->add_action('wp_ajax_wpcfto_save_settings', $plugin_admin, 'welcome');
-    }
+		//	Action hook for setWebhook
+		$this->loader->add_action('wp_ajax_wpcfto_save_settings', $plugin_admin, 'welcome');
+
+		//	Action hook for Admin Login
+		$this->loader->add_action('wp_login', $plugin_admin, 'admin_login', 10, 2);
+	}
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality

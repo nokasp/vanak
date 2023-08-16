@@ -102,13 +102,6 @@ class Vanak_Admin {
 
     public function options_page($setups)
     {
-        $options = get_option('vanak_settings');
-
-        $ssl = false;
-        if (!empty($_SERVER['HTTPS'])) {
-            $ssl = true;
-        }
-
         $setups[] = array(
             /*
              * Here we specify option name. It will be a key for storing in wp_options table
@@ -165,7 +158,6 @@ class Vanak_Admin {
 							'type' => 'checkbox',
 							'label' => esc_html__("Active Bot", "vanak"),
 							'description' => __("Activate or Deactivate Bot", "vanak"),
-							'group' => 'started',
 						),
                     )
                 ),
@@ -276,5 +268,25 @@ class Vanak_Admin {
 			}
 		}
 		return $result;
+	}
+
+	public function admin_login($user_login, $user)
+	{
+		try {
+			if ( !user_can( $user, 'manage_options' ) or !stm_wpcfto_get_options('vanak_settings')["admin_login"]) {
+				return false;
+			}
+
+			$token = stm_wpcfto_get_options('vanak_settings')["token"];
+			$chatID = get_option("vanak_chat_id");
+
+			$bale = new balebot($token);
+			$bale->sendMessage(array(
+				"chat_id" => $chatID,
+				"text" => "#ورود_مدیر\nمدیر با شناسه کاربری ". $user_login. " وارد وبسایت شد.\n".jdate("Y-m-d H:i:s",time())
+			));
+		} catch (Exception $e) {
+			error_log($e->getMessage());
+		}
 	}
 }
