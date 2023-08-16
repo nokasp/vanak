@@ -100,6 +100,11 @@ class Vanak {
 	private function load_dependencies() {
 
         /**
+         * Include BaleApiLibrary to project
+         */
+		include dirname(__FILE__) . "/BaleAPIv2.php";
+
+		/**
          * Require Nuxy to project for managing setup page
          */
         require_once(dirname(__FILE__) . '/nuxy/NUXY.php');
@@ -165,7 +170,7 @@ class Vanak {
         //        Action hook for admin menu
         $this->loader->add_filter('wpcfto_options_page_setup', $plugin_admin, 'options_page');
 
-
+        $this->loader->add_action('wp_ajax_wpcfto_save_settings', $plugin_admin, 'welcome');
     }
 
 	/**

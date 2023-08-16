@@ -102,6 +102,8 @@ class Vanak_Admin {
 
     public function options_page($setups)
     {
+        $options = get_option('vanak_settings');
+
         $ssl = false;
         if (!empty($_SERVER['HTTPS'])) {
             $ssl = true;
@@ -157,9 +159,14 @@ class Vanak_Admin {
                             'type' => 'text',
                             'label' => esc_html__("Token", "vanak"),
                             'value' => get_option("vanak_token"),
-/*                            'placeholder' => ''*/
                             'description' => __("Please enter the token received from the <code>BotFather</code> here.", "vanak"),
                         ),
+						'active' => array(
+							'type' => 'checkbox',
+							'label' => esc_html__("Active Bot", "vanak"),
+							'description' => __("Activate or Deactivate Bot", "vanak"),
+							'group' => 'started',
+						),
                     )
                 ),
                 'bot_options' => array(
@@ -210,4 +217,64 @@ class Vanak_Admin {
         return $setups;
     }
 
+	public function welcome()
+    {
+		$request_body = file_get_contents( 'php://input' );
+		$request_body = json_decode( $request_body, true );
+		$token = $request_body['bot_connection']['fields']['token']['value'];
+
+		$is_welcome = get_option("vanak_welcome");
+
+		if (!empty($token) && !$is_welcome){
+			$this->setWebhook($token);
+		}
+    }
+
+	private function setWebhook($token)
+	{
+		try {
+			$bale = new balebot($token);
+			$result = $bale->setWebhook(get_site_url());
+			if ($result['ok']) {
+
+				$getMe = $bale->getMe();
+				$bot_username = $getMe['result']['username'];
+
+				update_option("vanak_bot_username", $getMe['result']['username']);
+
+
+				$chatDetail = $bale->getupdate();
+				$setChatId = $this->setChatID($chatDetail);
+				if ($setChatId) {
+					$bale->sendMessage(array(
+						"chat_id" => get_option("vanak_chat_id"),
+						"text" => "به مدیریت ربات « ونک » خوش آمدید\n"."وبسایت ".get_site_url()." با موفقیت به ربات @".
+							$bot_username. " متصل شد"
+					));
+				}
+			} else {
+				delete_option("vanak_bot_username");
+				delete_option("vanak_chat_id");
+			}
+		} catch (Exception $e) {
+			echo json_encode([
+				'success' => false,
+				'message' => $e->getMessage()
+			]);
+		}
+	}
+
+	private function setChatID($chatDetail)
+	{
+		$result = false;
+		if ($chatDetail['ok']) {
+			foreach ($chatDetail['result'] as $chat) {
+				if ($chat['update_id'] == 1) {
+					$result = update_option("vanak_chat_id", $chat['message']['chat']['id']);
+				}
+				break;
+			}
+		}
+		return $result;
+	}
 }
