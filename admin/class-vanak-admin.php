@@ -226,11 +226,55 @@ class Vanak_Admin {
 		$is_welcome = get_option("vanak_welcome");
 
 		if (!empty($token) && !$is_welcome){
-			update_option('vanak_welcome', true);
-		} else {
-			update_option('vanak_welcome', false);
+			$this->setWebhook($token);
 		}
-
     }
 
+	private function setWebhook($token)
+	{
+		try {
+			$bale = new balebot($token);
+			$result = $bale->setWebhook(get_site_url());
+			if ($result['ok']) {
+
+				$getMe = $bale->getMe();
+				$bot_username = $getMe['result']['username'];
+
+				update_option("vanak_bot_username", $getMe['result']['username']);
+
+
+				$chatDetail = $bale->getupdate();
+				$setChatId = $this->setChatID($chatDetail);
+				if ($setChatId) {
+					$bale->sendMessage(array(
+						"chat_id" => get_option("vanak_chat_id"),
+						"text" => "به مدیریت ربات « ونک » خوش آمدید\n"."وبسایت ".get_site_url()." با موفقیت به ربات @".
+							$bot_username. " متصل شد"
+					));
+				}
+			} else {
+				delete_option("vanak_bot_username");
+				delete_option("vanak_chat_id");
+			}
+		} catch (Exception $e) {
+			echo json_encode([
+				'success' => false,
+				'message' => $e->getMessage()
+			]);
+		}
+	}
+
+	private function setChatID($chatDetail)
+	{
+		$result = false;
+		if ($chatDetail['ok']) {
+			foreach ($chatDetail['result'] as $chat) {
+				if ($chat['update_id'] == 1) {
+					$result = update_option("vanak_chat_id", $chat['message']['chat']['id']);
+				}
+				break;
+			}
+		}
+		return $result;
+	}
 }

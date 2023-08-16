@@ -100,6 +100,11 @@ class Vanak {
 	private function load_dependencies() {
 
         /**
+         * Include BaleApiLibrary to project
+         */
+		include dirname(__FILE__) . "/BaleAPIv2.php";
+
+		/**
          * Require Nuxy to project for managing setup page
          */
         require_once(dirname(__FILE__) . '/nuxy/NUXY.php');
