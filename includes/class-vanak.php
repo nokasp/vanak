@@ -172,6 +172,9 @@ class Vanak {
 
 		//	Action hook for setWebhook
 		$this->loader->add_action('wp_ajax_wpcfto_save_settings', $plugin_admin, 'welcome');
+
+		//	Action hook for Admin Login
+		$this->loader->add_action('wp_login', $plugin_admin, 'admin_login', 10, 2);
 	}
 
 	/**
