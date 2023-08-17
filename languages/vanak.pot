@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vanak\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-17 18:17+0000\n"
+"POT-Creation-Date: 2023-08-17 18:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,24 +16,8 @@ msgstr ""
 "X-Loco-Version: 2.6.4; wp-6.3\n"
 "X-Domain: vanak"
 
-#: includes/class-vanak-activator.php:65
-msgid "</code> .Please update it."
-msgstr ""
-
-#: admin/class-vanak-admin.php:166
-msgid "Activate or Deactivate Bot"
-msgstr ""
-
-#: admin/class-vanak-admin.php:165
-msgid "Active Bot"
-msgstr ""
-
-#: admin/class-vanak-admin.php:177
+#: admin/class-vanak-admin.php:172
 msgid "Admin Login"
-msgstr ""
-
-#. Description of the plugin
-msgid "bale bot for woocommerce"
 msgstr ""
 
 #: admin/class-vanak-admin.php:118
@@ -46,7 +30,7 @@ msgid ""
 "soon as the order is placed"
 msgstr ""
 
-#: admin/class-vanak-admin.php:200
+#: admin/class-vanak-admin.php:195
 msgid "Check SSL"
 msgstr ""
 
@@ -59,14 +43,14 @@ msgid "Create a new bot with the help of <code>BotFather</code>"
 msgstr ""
 
 #: admin/class-vanak-admin.php:153
-msgid "Enter the chat page with the bot and send the token"
+msgid "Enter the chat page with the bot and send the <code>/start</code>"
 msgstr ""
 
-#: admin/class-vanak-admin.php:178
+#: admin/class-vanak-admin.php:173
 msgid "Find out about the login of managers to the management counter."
 msgstr ""
 
-#: admin/class-vanak-admin.php:184
+#: admin/class-vanak-admin.php:179
 msgid "Get notified as soon as you place a new order."
 msgstr ""
 
@@ -88,15 +72,15 @@ msgstr ""
 msgid "Mehrdad Dindar"
 msgstr ""
 
-#: includes/class-vanak-activator.php:49 includes/class-vanak-activator.php:70
+#: includes/class-vanak-activator.php:49 includes/class-vanak-activator.php:72
 msgid "msg"
 msgstr ""
 
-#: admin/class-vanak-admin.php:172
+#: admin/class-vanak-admin.php:167
 msgid "Options"
 msgstr ""
 
-#: admin/class-vanak-admin.php:183
+#: admin/class-vanak-admin.php:178
 msgid "Order Submitted"
 msgstr ""
 
@@ -108,8 +92,19 @@ msgstr ""
 msgid "Please enter the token received from the <code>BotFather</code> here."
 msgstr ""
 
-#: admin/class-vanak-admin.php:191
+#: admin/class-vanak-admin.php:186
 msgid "Status"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"The 'Notify via Bale for WooCommerce - Vanak' plugin is an efficient tool "
+"within WordPress that enables website administrators to establish "
+"communication with the Balachat messaging bot. With the use of this plugin, "
+"you can effortlessly receive notifications, updates, and details related to "
+"your WooCommerce orders through the Balachat messaging platform. By "
+"leveraging this plugin, you'll be capable of enhancing your online business "
+"management and establishing improved communication with customers and orders."
 msgstr ""
 
 #: admin/class-vanak-admin.php:151
@@ -134,10 +129,17 @@ msgstr ""
 msgid "Welcome to Vanak"
 msgstr ""
 
-#: admin/class-vanak-admin.php:202
+#: admin/class-vanak-admin.php:197
 msgid "your connection is not secure"
 msgstr ""
 
-#: admin/class-vanak-admin.php:202
+#: admin/class-vanak-admin.php:197
 msgid "your connection is secure"
+msgstr ""
+
+#: includes/class-vanak-activator.php:66
+#, php-format
+msgid ""
+"Your WooCommerce plugin version must be at least version <code>%s</code> ."
+"Please update it."
 msgstr ""

@@ -62,11 +62,13 @@ class Vanak_Activator {
             // Check compatible woocommerce version
             if (!$woocommerce_error) {
                 wp_die(
-                    __(
-                        'Your WooCommerce plugin version must be at least version 
-<code>' . $version_to_check . '</code> .Please update it.',
-                        'vanak'
-                    ),
+					sprintf(
+						__(
+							'Your WooCommerce plugin version must be at least version <code>%s</code> .Please update it.',
+							'vanak'
+						),
+						$version_to_check
+					),
                     __('msg', 'vanak'),
                     [
                         'code' => 'checkDependencies',

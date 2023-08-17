@@ -150,7 +150,7 @@ class Vanak_Admin {
                                     __('By using this plugin, you will be informed about the details of the order as soon as the order is placed', 'vanak'),
                                     __('To do this, follow the steps below:', 'vanak'),
                                     __('Create a new bot with the help of <code>BotFather</code>', 'vanak'),
-                                    __('Enter the chat page with the bot and send the token', 'vanak'),
+                                    __('Enter the chat page with the bot and send the <code>/start</code>', 'vanak'),
                                     __('In the last step, to communicate between the bot and the plugin, enter and save the token in the field below', 'vanak')
                                 ),
                         ),
@@ -159,12 +159,7 @@ class Vanak_Admin {
                             'label' => esc_html__("Token", "vanak"),
                             'value' => get_option("vanak_token"),
                             'description' => __("Please enter the token received from the <code>BotFather</code> here.", "vanak"),
-                        ),
-						'active' => array(
-							'type' => 'checkbox',
-							'label' => esc_html__("Active Bot", "vanak"),
-							'description' => __("Activate or Deactivate Bot", "vanak"),
-						),
+                        )
                     )
                 ),
                 'bot_options' => array(
