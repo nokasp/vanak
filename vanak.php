@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Vanak
  * Plugin URI:        https://mehrdaddindar.ir/vanak
- * Description:       bale bot for woocommerce
+ * Description:       The 'Notify via Bale for WooCommerce - Vanak' plugin is an efficient tool within WordPress that enables website administrators to establish communication with the Balachat messaging bot. With the use of this plugin, you can effortlessly receive notifications, updates, and details related to your WooCommerce orders through the Balachat messaging platform. By leveraging this plugin, you'll be capable of enhancing your online business management and establishing improved communication with customers and orders.
  * Version:           0.2.0
  * Author:            Mehrdad Dindar
  * Author URI:        https://mehrdaddindar.ir
