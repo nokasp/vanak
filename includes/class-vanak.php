@@ -196,6 +196,12 @@ class Vanak {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		//        action hook for ajax woocommerce_checkout_order_processed
+		if ( get_option('vanak_settings')["order_submitted"]) {
+			$this->loader->add_action('woocommerce_checkout_order_processed', $plugin_public, 'sendNewOrder', 10, 1);
+		}
+
+
 	}
 
 	/**

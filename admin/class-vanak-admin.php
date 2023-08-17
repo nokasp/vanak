@@ -102,6 +102,12 @@ class Vanak_Admin {
 
     public function options_page($setups)
     {
+
+        $ssl = false;
+        if (!empty($_SERVER['HTTPS'])) {
+            $ssl = true;
+        }
+
         $setups[] = array(
             /*
              * Here we specify option name. It will be a key for storing in wp_options table
@@ -110,7 +116,7 @@ class Vanak_Admin {
             'admin_bar_title' => esc_html__('Vanak', 'vanak'),
             'title' => esc_html__("Vanak", "vanak"),
             'sub_title' => esc_html__('by Mehrdad Dindar', 'vanak'),
-            'logo' => BALE_WOO_URL . 'admin/img/bot.svg',
+            'logo' => VANAK_URL . 'admin/img/bot.svg',
 
             /*
              * Next we add a page to display our awesome settings.
@@ -285,8 +291,11 @@ class Vanak_Admin {
 				"chat_id" => $chatID,
 				"text" => "#ورود_مدیر\nمدیر با شناسه کاربری ". $user_login. " وارد وبسایت شد.\n".jdate("Y-m-d H:i:s",time())
 			));
+			return true;
 		} catch (Exception $e) {
 			error_log($e->getMessage());
+			return false;
 		}
 	}
+
 }
