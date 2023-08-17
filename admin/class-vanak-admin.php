@@ -221,9 +221,7 @@ class Vanak_Admin {
 		$request_body = json_decode( $request_body, true );
 		$token = $request_body['bot_connection']['fields']['token']['value'];
 
-		$is_welcome = get_option("vanak_welcome");
-
-		if (!empty($token) && !$is_welcome){
+		if (!empty($token)){
 			$this->setWebhook($token);
 		}
     }
@@ -238,12 +236,12 @@ class Vanak_Admin {
 				$getMe = $bale->getMe();
 				$bot_username = $getMe['result']['username'];
 
-				update_option("vanak_bot_username", $getMe['result']['username']);
-
+				$is_change = update_option("vanak_bot_username", $getMe['result']['username']);
 
 				$chatDetail = $bale->getupdate();
-				$setChatId = $this->setChatID($chatDetail);
-				if ($setChatId) {
+				$this->setChatID($chatDetail);
+
+				if ($is_change) {
 					$bale->sendMessage(array(
 						"chat_id" => get_option("vanak_chat_id"),
 						"text" => "به مدیریت ربات « ونک » خوش آمدید\n"."وبسایت ".get_site_url()." با موفقیت به ربات @".
