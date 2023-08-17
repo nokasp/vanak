@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://mehrdaddindar.ir
- * @since             0.1.0
+ * @since             0.2.0
  * @package           Vanak
  *
  * @wordpress-plugin
  * Plugin Name:       Vanak
  * Plugin URI:        https://mehrdaddindar.ir/vanak
  * Description:       bale bot for woocommerce
- * Version:           0.1.0
+ * Version:           0.2.0
  * Author:            Mehrdad Dindar
  * Author URI:        https://mehrdaddindar.ir
  * License:           GPL-2.0+
@@ -32,10 +32,13 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Currently plugin version.
- * Start at version 0.1.0 and use SemVer - https://semver.org
+ * Start at version 0.2.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'VANAK_VERSION', '0.1.0' );
+define( 'VANAK_VERSION', '0.2.0' );
+define("VANAK_URL", plugin_dir_url(__FILE__));
+define("VANAK_PATH", plugin_dir_path(__FILE__));
+
 
 /**
  * The code that runs during plugin activation.
@@ -71,7 +74,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-vanak.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    0.1.0
+ * @since    0.2.0
  */
 function run_vanak() {
 

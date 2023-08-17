@@ -100,6 +100,21 @@ class Vanak {
 	private function load_dependencies() {
 
 		/**
+		 * Require JDF to project for jalali date format
+		 */
+		require_once(dirname(__FILE__) . '/jdf.php');
+
+        /**
+         * Include BaleApiLibrary to project
+         */
+		include dirname(__FILE__) . "/BaleAPIv2.php";
+
+		/**
+         * Require Nuxy to project for managing setup page
+         */
+        require_once(dirname(__FILE__) . '/nuxy/NUXY.php');
+
+		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
@@ -157,6 +172,14 @@ class Vanak {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		//	Action hook for admin menu
+		$this->loader->add_filter('wpcfto_options_page_setup', $plugin_admin, 'options_page');
+
+		//	Action hook for setWebhook
+		$this->loader->add_action('wp_ajax_wpcfto_save_settings', $plugin_admin, 'welcome');
+
+		//	Action hook for Admin Login
+		$this->loader->add_action('wp_login', $plugin_admin, 'admin_login', 10, 2);
 	}
 
 	/**
@@ -172,6 +195,12 @@ class Vanak {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+		//        action hook for ajax woocommerce_checkout_order_processed
+		if ( get_option('vanak_settings')["order_submitted"]) {
+			$this->loader->add_action('woocommerce_checkout_order_processed', $plugin_public, 'sendNewOrder', 10, 1);
+		}
+
 
 	}
 
