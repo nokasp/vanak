@@ -103,79 +103,7 @@ class Vanak_Public {
 	// sendNewOrder methode
 	public function sendNewOrder($order_id) {
 		try {
-			$order = wc_get_order($order_id);
-			$currency = " ".html_entity_decode(get_woocommerce_currency_symbol());
-
-			// order details
-			$text = "🛒 #سفارش_جدید\n🆔 #".$order->get_id()."\n\n";
-			$text .= "*جزئیات سفارش*\n";
-			$orderItems = $order->get_items();
-			$no = 1;
-			foreach ($orderItems as $orderItem) {
-				$product = $orderItem->get_product();
-				$percentage = round( ( (int)$product->sale_price  / (int)
-						$product->regular_price)	* 100 );
-				$percentage = $percentage ? " (%) " : "";
-
-				$text .= tr_num($no++,"fa")." - [".$orderItem['name']."](".$product->get_permalink().")". $percentage
-					." - تعداد :  *"
-					.$orderItem->get_quantity()
-					."*\n";
-				$product_price = $product->get_price();
-				$text .= tr_num(number_format($product_price)."		".number_format($orderItem->get_quantity())."		"
-					.number_format($product_price *
-					$orderItem->get_quantity())."	".$currency."\n\n", "fa");
-			}
-
-			$text .= "جمع کل :			*".tr_num(number_format($order->get_subtotal()).$currency,"fa")."*\n";
-
-			$coupon_codes = $order->get_coupon_codes();
-
-			if ($coupon_codes) {
-				$text .= "تخفیف‌ها :		*-" . tr_num(number_format($order->get_discount_total()) . $currency, "fa") . "*\n";
-			}
-
-			$text .= "حمل و نقل :		*" . (intval($order->get_shipping_total()) > 0 ? tr_num(number_format($order->get_shipping_total()).$currency, "fa")  : $order->get_shipping_method())  . "*\n";
-
-			$text .= "جمع کل سفارش:	*".tr_num(number_format($order->get_total()).$currency,"fa")."*\n";
-			$text .= "نوع ارسال: ".$order->get_shipping_method()."\n";
-			$text .= "نوع پرداخت: ".$order->get_payment_method_title()."\n";
-			$text .= "تاریخ سفارش: ".jdate("Y/m/d H:i:s", ($order->get_date_created())->getTimestamp())."\n";
-			if ($coupon_codes) {
-				$text .= "کد تخفیف: " . implode(" , ", $coupon_codes) . "\n";
-			}
-			$text .= "\n";
-
-
-			$text .= "*مشخصات مشتری*\n";
-			$text.= "نام : ".$order->get_billing_first_name()."\n";
-			$text.= "نام خانوادگی : #".$order->get_billing_last_name()."\n";
-			$text.= "شماره تماس : ".tr_num(wc_format_phone_number($order->get_billing_phone()))."\n";
-			$text.= "ایمیل : ".$order->get_billing_email()."\n\n";
-			$text.= "--------------- *آدرس فاکتور* ---------------\n";
-
-			$text .= "استان/شهر : 	".$this->getState($order)." / ".$order->get_billing_city()."\n";
-			$text .= "آدرس ۱: ".$order->get_billing_address_1()."\n";
-			if ($order->get_billing_address_2()){
-				$text.= "آدرس ۲: ".$order->get_billing_address_2()."\n";
-			}
-			$text .= "کد پستی: ".$order->get_billing_postcode()."\n\n";
-
-			if( $order->get_billing_address_1() != $order->get_shipping_address_1() ) {
-				$text .= "--------------- *آدرس ارسال* ---------------\n";
-
-				$text .= "استان/شهر : 	" . $this->getState($order, "shipping") . " / " . $order->get_shipping_city() . "\n";
-				$text .= "آدرس ۱: " . $order->get_shipping_address_1() . "\n";
-				if ($order->get_shipping_address_2()) {
-					$text .= "آدرس ۲: " . $order->get_shipping_address_2() . "\n";
-				}
-				$text .= "کد پستی: " . $order->get_shipping_postcode() . "\n\n";
-			}
-			if ($order->get_customer_note()) {
-				$text .= "--------------- *توضیحات* ---------------\n";
-				$text .= "🛎️ " . $order->get_customer_note() . "\n";
-			}
-
+			$invoiceBody = $this->getInvoiceBody($order_id);
 
 			$token = stm_wpcfto_get_options('vanak_settings')["token"];
 			$chatID = get_option("vanak_chat_id");
@@ -183,8 +111,9 @@ class Vanak_Public {
 			$bale = new balebot($token);
 			$bale->sendMessage(array(
 				"chat_id" => $chatID,
-				"text" => $text
+				"text" => $invoiceBody
 			));
+			wp_die();
 		}catch (Exception $e) {
 			wp_die(json_encode($e->getMessage()));
 		}
@@ -205,6 +134,84 @@ class Vanak_Public {
 		$countries = new WC_Countries();
 		$country_states = $countries->get_states( $country_code );
 		return $country_states[$state];
+	}
+
+	private function getInvoiceBody($order_id)
+	{
+		$order = wc_get_order($order_id);
+		$currency = " ".html_entity_decode(get_woocommerce_currency_symbol());
+
+		// order details
+		$text = "🛒 #سفارش_جدید\n🆔 #".$order->get_id()."\n\n";
+		$text .= "*جزئیات سفارش*\n";
+		$orderItems = $order->get_items();
+		$no = 1;
+		foreach ($orderItems as $orderItem) {
+			$product = $orderItem->get_product();
+			$percentage = round( ( (int)$product->sale_price  / (int)
+					$product->regular_price)	* 100 );
+			$percentage = $percentage ? " (%) " : "";
+
+			$text .= tr_num($no++,"fa")." - [".$orderItem['name']."](".$product->get_permalink().")". $percentage
+				." - تعداد :  *"
+				.$orderItem->get_quantity()
+				."*\n";
+			$product_price = $product->get_price();
+			$text .= tr_num(number_format($product_price)."		".number_format($orderItem->get_quantity())."		"
+				.number_format($product_price *
+					$orderItem->get_quantity())."	".$currency."\n\n", "fa");
+		}
+
+		$text .= "جمع کل :			*".tr_num(number_format($order->get_subtotal()).$currency,"fa")."*\n";
+
+		$coupon_codes = $order->get_coupon_codes();
+
+		if ($coupon_codes) {
+			$text .= "تخفیف‌ها :		*-" . tr_num(number_format($order->get_discount_total()) . $currency, "fa") . "*\n";
+		}
+
+		$text .= "حمل و نقل :		*" . (intval($order->get_shipping_total()) > 0 ? tr_num(number_format($order->get_shipping_total()).$currency, "fa")  : $order->get_shipping_method())  . "*\n";
+
+		$text .= "جمع کل سفارش:	*".tr_num(number_format($order->get_total()).$currency,"fa")."*\n";
+		$text .= "نوع ارسال: 		".$order->get_shipping_method()."\n";
+		$text .= "نوع پرداخت: 		".$order->get_payment_method_title()."\n";
+		$text .= "وضعیت سفارش: 	*".wc_get_order_status_name($order->get_status())."*\n";
+		$text .= "تاریخ سفارش: 		".jdate("Y/m/d H:i:s", ($order->get_date_created())->getTimestamp())."\n";
+		if ($coupon_codes) {
+			$text .= "کد تخفیف: " . implode(" , ", $coupon_codes) . "\n";
+		}
+		$text .= "\n";
+
+
+		$text .= "*مشخصات مشتری*\n";
+		$text.= "نام : ".$order->get_billing_first_name()."\n";
+		$text.= "نام خانوادگی : #".$order->get_billing_last_name()."\n";
+		$text.= "شماره تماس : ".tr_num(wc_format_phone_number($order->get_billing_phone()))."\n";
+		$text.= "ایمیل : ".$order->get_billing_email()."\n\n";
+		$text.= "--------------- *آدرس فاکتور* ---------------\n";
+
+		$text .= "استان/شهر : 	".$this->getState($order)." / ".$order->get_billing_city()."\n";
+		$text .= "آدرس ۱: ".$order->get_billing_address_1()."\n";
+		if ($order->get_billing_address_2()){
+			$text.= "آدرس ۲: ".$order->get_billing_address_2()."\n";
+		}
+		$text .= "کد پستی: ".$order->get_billing_postcode()."\n\n";
+
+		if( $order->get_billing_address_1() != $order->get_shipping_address_1() ) {
+			$text .= "--------------- *آدرس ارسال* ---------------\n";
+
+			$text .= "استان/شهر : 	" . $this->getState($order, "shipping") . " / " . $order->get_shipping_city() . "\n";
+			$text .= "آدرس ۱: " . $order->get_shipping_address_1() . "\n";
+			if ($order->get_shipping_address_2()) {
+				$text .= "آدرس ۲: " . $order->get_shipping_address_2() . "\n";
+			}
+			$text .= "کد پستی: " . $order->get_shipping_postcode() . "\n\n";
+		}
+		if ($order->get_customer_note()) {
+			$text .= "--------------- *توضیحات* ---------------\n";
+			$text .= "🛎️ " . $order->get_customer_note() . "\n";
+		}
+		return $text;
 	}
 
 }
