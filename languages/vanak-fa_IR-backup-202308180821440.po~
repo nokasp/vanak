@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Vanak\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-17 18:17+0000\n"
-"PO-Revision-Date: 2023-08-18 08:22+0000\n"
+"PO-Revision-Date: 2023-08-18 07:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: فارسی\n"
 "Language: fa_IR\n"
@@ -141,10 +141,6 @@ msgstr "پیغام"
 #: admin/class-vanak-admin.php:167
 msgid "Options"
 msgstr "گزینه ها"
-
-#: public/class-vanak-public.php:113
-msgid "Order Details"
-msgstr "جزئیات سفارش"
 
 #: admin/class-vanak-admin.php:178
 msgid "Order Submitted"

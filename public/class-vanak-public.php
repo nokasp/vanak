@@ -109,9 +109,16 @@ class Vanak_Public {
 			$chatID = get_option("vanak_chat_id");
 
 			$bale = new balebot($token);
-			$bale->sendMessage(array(
-				"chat_id" => $chatID,
-				"text" => $invoiceBody
+			$inlineKeyboardoption =	[
+				$bale->buildInlineKeyBoardButton(__("Order Details","vanak"), get_site_url().'/wp-admin/post.php?post='
+					.$order_id.'&action=edit','callback text' ),
+			];
+			$Keyboard = $bale->buildInlineKeyBoard($inlineKeyboardoption);
+
+			$bale->sendText(array(
+				'chat_id' => $chatID,
+				'text'	=>	$invoiceBody,
+				'reply_markup' =>$Keyboard
 			));
 		}catch (Exception $e) {
 			wp_die(json_encode($e->getMessage()));
