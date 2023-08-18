@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Vanak\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-17 18:17+0000\n"
-"PO-Revision-Date: 2023-08-17 18:59+0000\n"
+"PO-Revision-Date: 2023-08-18 07:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: فارسی\n"
 "Language: fa_IR\n"
@@ -18,6 +18,10 @@ msgstr ""
 #: admin/class-vanak-admin.php:172
 msgid "Admin Login"
 msgstr "ورود مدیر"
+
+#: includes/nuxy/metaboxes/metabox.php:261
+msgid "Backup Font Family"
+msgstr "خانواده فونت پشتیبان"
 
 #: admin/class-vanak-admin.php:118
 msgid "by Mehrdad Dindar"
@@ -34,9 +38,21 @@ msgstr ""
 msgid "Check SSL"
 msgstr "بررسی SSL"
 
+#: includes/nuxy/metaboxes/metabox.php:45
+msgid "Choose User"
+msgstr "کاربر را انتخاب کنید"
+
 #: admin/class-vanak-admin.php:140
 msgid "Connection"
 msgstr "اتصال"
+
+#: includes/nuxy/metaboxes/metabox.php:267
+msgid "Copy settings"
+msgstr "تنظیمات را کپی کنید"
+
+#: includes/nuxy/metaboxes/metabox.php:271
+msgid "Couldn't copy settings"
+msgstr "تنظیمات کپی نشد"
 
 #: admin/class-vanak-admin.php:152
 msgid "Create a new bot with the help of <code>BotFather</code>"
@@ -46,9 +62,33 @@ msgstr "با کمک <code>BotFather</code> یک ربات جدید بسازید"
 msgid "Enter the chat page with the bot and send the <code>/start</code>"
 msgstr "وارد صفحه چت با ربات شوید و <code>/start</code> را ارسال کنید"
 
+#: includes/nuxy/metaboxes/metabox.php:272
+msgid "Export options"
+msgstr "بیرون بری تنظیمات"
+
 #: admin/class-vanak-admin.php:173
 msgid "Find out about the login of managers to the management counter."
 msgstr "از ورود مدیران به پیشخوان مدیریت وبسایت مطلع شوید."
+
+#: includes/nuxy/metaboxes/metabox.php:265
+msgid "Font Color"
+msgstr "رنگ فونت"
+
+#: includes/nuxy/metaboxes/metabox.php:260
+msgid "Font Family"
+msgstr "خانواده فونت"
+
+#: includes/nuxy/metaboxes/metabox.php:256
+msgid "Font size"
+msgstr "اندازه فونت"
+
+#: includes/nuxy/metaboxes/metabox.php:263
+msgid "Font Subsets"
+msgstr "زیر مجموعه های فونت"
+
+#: includes/nuxy/metaboxes/metabox.php:262
+msgid "Font Weignt & Style"
+msgstr "وزن و سبک قلم"
 
 #: admin/class-vanak-admin.php:179
 msgid "Get notified as soon as you place a new order."
@@ -62,6 +102,18 @@ msgstr "https://mehrdaddindar.ir"
 msgid "https://mehrdaddindar.ir/vanak"
 msgstr "https://mehrdaddindar.ir/vanak"
 
+#: includes/nuxy/metaboxes/metabox.php:273
+msgid "Import options"
+msgstr "درون ریزی تنظیمات"
+
+#: includes/nuxy/metaboxes/metabox.php:268
+msgid "Import settings"
+msgstr "درون ریزی تنظیمات"
+
+#: includes/nuxy/metaboxes/metabox-display.php:27
+msgid "Import/Export"
+msgstr "درون‌ریزی / برون‌بری"
+
 #: admin/class-vanak-admin.php:154
 msgid ""
 "In the last step, to communicate between the bot and the plugin, enter and "
@@ -69,6 +121,14 @@ msgid ""
 msgstr ""
 "در مرحله آخر برای برقراری ارتباط بین ربات و افزونه، توکن را در فیلد زیر وارد "
 "و ذخیره کنید"
+
+#: includes/nuxy/metaboxes/metabox.php:259
+msgid "Letter spacing"
+msgstr "فاصله بین حروف"
+
+#: includes/nuxy/metaboxes/metabox.php:257
+msgid "Line height"
+msgstr "ارتفاع خط"
 
 #. Author of the plugin
 msgid "Mehrdad Dindar"
@@ -94,9 +154,29 @@ msgstr "لطفا ابتدا ووکامرس را فعال کنید."
 msgid "Please enter the token received from the <code>BotFather</code> here."
 msgstr "لطفا توکن دریافتی از <code>BotFather</code> را اینجا وارد کنید."
 
+#: includes/nuxy/settings/view/header.php:55
+msgid "Save Settings"
+msgstr "ذخیره تغییرات"
+
+#: includes/nuxy/metaboxes/metabox.php:270
+msgid "Settings copied to buffer"
+msgstr "تنظیمات در بافر کپی شد"
+
+#: includes/nuxy/metaboxes/metabox.php:274
+msgid "Sorry, no matching options."
+msgstr "با عرض پوزش، هیچ گزینه منطبقی وجود ندارد."
+
 #: admin/class-vanak-admin.php:186
 msgid "Status"
 msgstr "وضعیت"
+
+#: includes/nuxy/metaboxes/metabox.php:264
+msgid "Text Align"
+msgstr "تراز متن"
+
+#: includes/nuxy/metaboxes/metabox.php:266
+msgid "Text transform"
+msgstr "تبدیل متن"
 
 #. Description of the plugin
 #| msgid ""
@@ -142,9 +222,21 @@ msgstr "ونک"
 msgid "Vanak Dashboard"
 msgstr "داشبورد ونک"
 
+#: includes/nuxy/metaboxes/metabox.php:269
+msgid ""
+"WARNING! This will overwrite all existing option values, please proceed with "
+"caution!"
+msgstr ""
+"هشدار! استفاده از این قابلیت همه تنظیمات موجود را بازنویسی می کند، لطفاً با "
+"احتیاط ادامه دهید!"
+
 #: admin/class-vanak-admin.php:149
 msgid "Welcome to Vanak"
 msgstr "به ونک خوش آمدید"
+
+#: includes/nuxy/metaboxes/metabox.php:258
+msgid "Word spacing"
+msgstr "فاصله کلمات"
 
 #: admin/class-vanak-admin.php:197
 msgid "your connection is not secure"

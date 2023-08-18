@@ -42,7 +42,7 @@ class STM_Metaboxes {
 
 	public static function get_users() {
 		$users = array(
-			'' => apply_filters( 'wpcfto_all_users_label', esc_html__( 'Choose User', 'nuxy' ) ),
+			'' => apply_filters( 'wpcfto_all_users_label', esc_html__( 'Choose User', 'vanak' ) ),
 		);
 
 		if ( ! is_admin() ) {
@@ -253,25 +253,25 @@ class STM_Metaboxes {
 
 	public static function translations() {
 		return array(
-			'font_size'           => esc_html__( 'Font size', 'nuxy' ),
-			'line_height'         => esc_html__( 'Line height', 'nuxy' ),
-			'word_spacing'        => esc_html__( 'Word spacing', 'nuxy' ),
-			'letter_spacing'      => esc_html__( 'Letter spacing', 'nuxy' ),
-			'font_family'         => esc_html__( 'Font Family', 'nuxy' ),
-			'backup_font_family'  => esc_html__( 'Backup Font Family', 'nuxy' ),
-			'font_weight'         => esc_html__( 'Font Weignt & Style', 'nuxy' ),
-			'font_subset'         => esc_html__( 'Font Subsets', 'nuxy' ),
-			'text_align'          => esc_html__( 'Text Align', 'nuxy' ),
-			'font_color'          => esc_html__( 'Font Color', 'nuxy' ),
-			'text-transform'      => esc_html__( 'Text transform', 'nuxy' ),
-			'export'              => esc_html__( 'Copy settings', 'nuxy' ),
-			'import'              => esc_html__( 'Import settings', 'nuxy' ),
-			'import_notice'       => esc_html__( 'WARNING! This will overwrite all existing option values, please proceed with caution!', 'nuxy' ),
-			'exported_data'       => esc_html__( 'Settings copied to buffer', 'nuxy' ),
-			'exported_data_error' => esc_html__( 'Couldn\'t copy settings', 'nuxy' ),
-			'export_data_label'   => esc_html__( 'Export options', 'nuxy' ),
-			'import_data_label'   => esc_html__( 'Import options', 'nuxy' ),
-			'vue_select_notice'   => esc_html__( 'Sorry, no matching options.', 'nuxy' ),
+			'font_size'           => esc_html__( 'Font size', 'vanak' ),
+			'line_height'         => esc_html__( 'Line height', 'vanak' ),
+			'word_spacing'        => esc_html__( 'Word spacing', 'vanak' ),
+			'letter_spacing'      => esc_html__( 'Letter spacing', 'vanak' ),
+			'font_family'         => esc_html__( 'Font Family', 'vanak' ),
+			'backup_font_family'  => esc_html__( 'Backup Font Family', 'vanak' ),
+			'font_weight'         => esc_html__( 'Font Weignt & Style', 'vanak' ),
+			'font_subset'         => esc_html__( 'Font Subsets', 'vanak' ),
+			'text_align'          => esc_html__( 'Text Align', 'vanak' ),
+			'font_color'          => esc_html__( 'Font Color', 'vanak' ),
+			'text-transform'      => esc_html__( 'Text transform', 'vanak' ),
+			'export'              => esc_html__( 'Copy settings', 'vanak' ),
+			'import'              => esc_html__( 'Import settings', 'vanak' ),
+			'import_notice'       => esc_html__( 'WARNING! This will overwrite all existing option values, please proceed with caution!', 'vanak' ),
+			'exported_data'       => esc_html__( 'Settings copied to buffer', 'vanak' ),
+			'exported_data_error' => esc_html__( 'Couldn\'t copy settings', 'vanak' ),
+			'export_data_label'   => esc_html__( 'Export options', 'vanak' ),
+			'import_data_label'   => esc_html__( 'Import options', 'vanak' ),
+			'vue_select_notice'   => esc_html__( 'Sorry, no matching options.', 'vanak' ),
 		);
 	}
 

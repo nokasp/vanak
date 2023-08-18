@@ -52,7 +52,7 @@ $only_logo = empty( $wpcfto_title ) && empty( $wpcfto_sub_title );
 		   @click.prevent="saveSettings('<?php echo esc_attr( $metabox_id ); ?>')"
 		   v-bind:class="{'loading': loading}"
 		   class="button load_button">
-			<span><?php esc_html_e( 'Save Settings', 'nuxy' ); ?></span>
+			<span><?php esc_html_e( 'Save Settings', 'vanak' ); ?></span>
 			<i class="lnr lnr-sync"></i>
 		</a>
 

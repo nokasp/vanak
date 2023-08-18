@@ -24,7 +24,7 @@ if ( empty( $metabox_id ) ) {
 } else {
 	if ( apply_filters( 'wpcfto_enable_export_import', true ) ) {
 		$sections['wpcfto_import_export'] = array(
-			'name'   => esc_html__( 'Import/Export', 'nuxy' ),
+			'name'   => esc_html__( 'Import/Export', 'vanak' ),
 			'icon'   => 'fa fa-sync',
 			'fields' => array(
 				'wpcfto_import_export_field' => array(

@@ -113,7 +113,6 @@ class Vanak_Public {
 				"chat_id" => $chatID,
 				"text" => $invoiceBody
 			));
-			wp_die();
 		}catch (Exception $e) {
 			wp_die(json_encode($e->getMessage()));
 		}
