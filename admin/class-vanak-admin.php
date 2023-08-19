@@ -177,6 +177,11 @@ class Vanak_Admin {
                             'type' => 'checkbox',
                             'label' => esc_html__("Order Submitted", "vanak"),
                             'description' => __("Get notified as soon as you place a new order.", "vanak"),
+                        ),
+                        'comment_submitted' => array(
+                            'type' => 'checkbox',
+                            'label' => esc_html__("Comment Submitted", "vanak"),
+                            'description' => __("Get notified as soon as a new comment is posted.", "vanak"),
                             'group' => 'ended'
                         ),
                     )
@@ -260,9 +265,7 @@ class Vanak_Admin {
 		$result = false;
 		if ($chatDetail['ok']) {
 			foreach ($chatDetail['result'] as $chat) {
-				if ($chat['update_id'] == 1) {
-					$result = update_option("vanak_chat_id", $chat['message']['chat']['id']);
-				}
+				$result = update_option("vanak_chat_id", $chat['message']['chat']['id']);
 				break;
 			}
 		}

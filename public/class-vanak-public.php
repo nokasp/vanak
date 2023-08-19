@@ -220,4 +220,70 @@ class Vanak_Public {
 		return $text;
 	}
 
+	public function sendNewComment($comment_id, $comment_approved, $comment_data)
+	{
+		try {
+			$commentBody = $this->getCommentBody($comment_id);
+
+
+			$token = stm_wpcfto_get_options('vanak_settings')["token"];
+			$chatID = get_option("vanak_chat_id");
+
+			$bale = new balebot($token);
+			$bale->sendMessage(array(
+				"chat_id" => $chatID,
+				"text" => $commentBody
+			));
+		}catch (Exception $e) {
+			wp_die(json_encode($e->getMessage()));
+		}
+	}
+
+	private function getCommentBody($comment_id)
+	{
+		$comment = get_comment($comment_id);
+
+		$text = "💬 #دیدگاه_جدید\n🆔 #".$comment->comment_ID."\n\n";
+		$text .= "*جزئیات دیدگاه*\n";
+		$text .= "زمان ثبت : ".jdate("Y/m/d H:i:s", strtotime($comment->comment_date_gmt))."\n";
+
+		$commentType = ucfirst($comment->comment_type);
+		switch ($commentType){
+			case "Review":
+				$text .= "نوع : " . esc_html__($commentType, 'woocommerce')."\n";
+				$rating = intval(get_comment_meta($comment_id, 'rating', true));
+				$text .="امتیاز : " . str_repeat("★", $rating);
+				$text .= str_repeat("☆", 5 - $rating);
+				$text .= "\n";
+				$commentType = esc_html__($commentType, 'woocommerce');
+				break;
+            default:
+				$text .= "نوع : " . esc_html__($commentType)."\n";
+				$commentType = esc_html__($commentType);
+
+                break;
+		}
+		$text .= $comment->comment_content."\n\n";
+
+		$user = get_user_by('id', $comment->user_id);
+
+			$text .= "*مشخصات کاربر*\n";
+		if ($user) {
+			$text .= "نام : " . $user->user_firstname . "\n";
+			$text .= "نام خانوادگی : #" . $user->last_name . "\n";
+			$text .= "نام نمایشی : " . $user->display_name . "\n";
+		}else{
+			$text .= "نام : " . $comment->comment_author . "\n";
+			$text .= "ایمیل : " . $comment->comment_author_email . "\n";
+			$text .= "* _نویسنده ".$commentType." عضو سایت نیست_\n";
+		}
+
+		$text .= "IP : " . $comment->comment_author_IP . "\n\n";
+
+		$post = get_post($comment->comment_post_ID);
+		$text .= $commentType ." برای [" . $post->post_title . "](".get_comment_link($comment_id) .") نوشته شده است\n";
+
+		return $text;
+	}
+
 }
