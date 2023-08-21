@@ -317,6 +317,9 @@ class Vanak_Public {
 			update_option("vanak_license_message", maybe_serialize($msg));
 		}
 		update_option("vanak_license", false);
+		$settings = get_option("vanak_settings");
+		$settings['licence'] = null;
+		update_option('vanak_settings', $settings);
 	}
 
 	public function unscheduled_vanak_task()
