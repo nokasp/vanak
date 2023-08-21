@@ -115,6 +115,11 @@ class Vanak {
         require_once(dirname(__FILE__) . '/nuxy/NUXY.php');
 
 		/**
+         * Require Nuxy dependencies to project
+         */
+        require_once(dirname(__FILE__) . '/nuxy/nuxy_dependence.php');
+
+		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
@@ -172,6 +177,9 @@ class Vanak {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		//	Action hook for check nuxy dependencies
+		$this->loader->add_action('wp_ajax_wpcfto_save_settings', $plugin_admin, 'nuxyCheck');
+
 		//	Action hook for admin menu
 		$this->loader->add_filter('wpcfto_options_page_setup', $plugin_admin, 'options_page');
 
@@ -197,9 +205,21 @@ class Vanak {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 		//        action hook for ajax woocommerce_checkout_order_processed
-		if ( get_option('vanak_settings')["order_submitted"]) {
+//		if ( get_option('vanak_settings')["order_submitted"]) {
 			$this->loader->add_action('woocommerce_checkout_order_processed', $plugin_public, 'sendNewOrder', 10, 1);
+//		}
+
+		//        action hook for new comments posted
+//		if ( get_option('vanak_settings')["comment_submitted"]) {
+            $this->loader->add_action('comment_post', $plugin_public,'sendNewComment', 10, 3);
+//        }
+
+		if ( !get_option('vanak_license')) {
+			// action hook for unscheduled hook
+			$this->loader->add_action('vanak_unscheduled_hook', $plugin_public,'unscheduled_vanak_task');
 		}
+			// action hook for guard check
+			$this->loader->add_action('vanak_guard_check_hook', $plugin_public, 'guard_check_function');
 
 
 	}

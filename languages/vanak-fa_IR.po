@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Vanak\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-17 18:17+0000\n"
-"PO-Revision-Date: 2023-08-17 18:59+0000\n"
+"PO-Revision-Date: 2023-08-21 16:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: فارسی\n"
 "Language: fa_IR\n"
@@ -15,42 +15,94 @@ msgstr ""
 "X-Loco-Version: 2.6.4; wp-6.3\n"
 "X-Domain: vanak"
 
-#: admin/class-vanak-admin.php:172
+#: admin/class-vanak-admin.php:353 admin/class-vanak-admin.php:409
+msgid "Activation"
+msgstr "فعال سازی"
+
+#: admin/class-vanak-admin.php:316
 msgid "Admin Login"
 msgstr "ورود مدیر"
 
-#: admin/class-vanak-admin.php:118
+#: includes/nuxy/metaboxes/metabox.php:261
+msgid "Backup Font Family"
+msgstr "خانواده فونت پشتیبان"
+
+#: admin/class-vanak-admin.php:259 admin/class-vanak-admin.php:387
 msgid "by Mehrdad Dindar"
 msgstr "توسط مهرداد دیندار"
 
-#: admin/class-vanak-admin.php:150
+#: admin/class-vanak-admin.php:289
 msgid ""
 "By using this plugin, you will be informed about the details of the order as "
 "soon as the order is placed"
 msgstr ""
 "با استفاده از این افزونه، به محض ثبت سفارش، از جزئیات سفارش مطلع خواهید شد."
 
-#: admin/class-vanak-admin.php:195
+#: admin/class-vanak-admin.php:344
 msgid "Check SSL"
 msgstr "بررسی SSL"
 
-#: admin/class-vanak-admin.php:140
+#: includes/nuxy/metaboxes/metabox.php:45
+msgid "Choose User"
+msgstr "کاربر را انتخاب کنید"
+
+#: admin/class-vanak-admin.php:327
+msgid "Comment Submitted"
+msgstr "دیدگاه ارسال شده"
+
+#: admin/class-vanak-admin.php:280
 msgid "Connection"
 msgstr "اتصال"
 
-#: admin/class-vanak-admin.php:152
+#: includes/nuxy/metaboxes/metabox.php:267
+msgid "Copy settings"
+msgstr "تنظیمات را کپی کنید"
+
+#: includes/nuxy/metaboxes/metabox.php:271
+msgid "Couldn't copy settings"
+msgstr "تنظیمات کپی نشد"
+
+#: admin/class-vanak-admin.php:291
 msgid "Create a new bot with the help of <code>BotFather</code>"
 msgstr "با کمک <code>BotFather</code> یک ربات جدید بسازید"
 
-#: admin/class-vanak-admin.php:153
+#: admin/class-vanak-admin.php:292
 msgid "Enter the chat page with the bot and send the <code>/start</code>"
 msgstr "وارد صفحه چت با ربات شوید و <code>/start</code> را ارسال کنید"
 
-#: admin/class-vanak-admin.php:173
+#: includes/nuxy/metaboxes/metabox.php:272
+msgid "Export options"
+msgstr "بیرون بری تنظیمات"
+
+#: admin/class-vanak-admin.php:317
 msgid "Find out about the login of managers to the management counter."
 msgstr "از ورود مدیران به پیشخوان مدیریت وبسایت مطلع شوید."
 
-#: admin/class-vanak-admin.php:179
+#: includes/nuxy/metaboxes/metabox.php:265
+msgid "Font Color"
+msgstr "رنگ فونت"
+
+#: includes/nuxy/metaboxes/metabox.php:260
+msgid "Font Family"
+msgstr "خانواده فونت"
+
+#: includes/nuxy/metaboxes/metabox.php:256
+msgid "Font size"
+msgstr "اندازه فونت"
+
+#: includes/nuxy/metaboxes/metabox.php:263
+msgid "Font Subsets"
+msgstr "زیر مجموعه های فونت"
+
+#: includes/nuxy/metaboxes/metabox.php:262
+msgid "Font Weignt & Style"
+msgstr "وزن و سبک قلم"
+
+#: admin/class-vanak-admin.php:328
+msgid "Get notified as soon as a new comment is posted."
+msgstr "به محض ارسال نظر جدید مطلع شوید."
+
+#: admin/class-vanak-admin.php:323
 msgid "Get notified as soon as you place a new order."
 msgstr "به محض ثبت سفارش جدید مطلع شوید."
 
@@ -62,13 +114,37 @@ msgstr "https://mehrdaddindar.ir"
 msgid "https://mehrdaddindar.ir/vanak"
 msgstr "https://mehrdaddindar.ir/vanak"
 
-#: admin/class-vanak-admin.php:154
+#: includes/nuxy/metaboxes/metabox.php:273
+msgid "Import options"
+msgstr "درون ریزی تنظیمات"
+
+#: includes/nuxy/metaboxes/metabox.php:268
+msgid "Import settings"
+msgstr "درون ریزی تنظیمات"
+
+#: includes/nuxy/metaboxes/metabox-display.php:27
+msgid "Import/Export"
+msgstr "درون‌ریزی / برون‌بری"
+
+#: admin/class-vanak-admin.php:293
 msgid ""
 "In the last step, to communicate between the bot and the plugin, enter and "
 "save the token in the field below"
 msgstr ""
 "در مرحله آخر برای برقراری ارتباط بین ربات و افزونه، توکن را در فیلد زیر وارد "
 "و ذخیره کنید"
+
+#: includes/nuxy/metaboxes/metabox.php:259
+msgid "Letter spacing"
+msgstr "فاصله بین حروف"
+
+#: admin/class-vanak-admin.php:367 admin/class-vanak-admin.php:423
+msgid "Licence Key "
+msgstr "کلید لایسنس"
+
+#: includes/nuxy/metaboxes/metabox.php:257
+msgid "Line height"
+msgstr "ارتفاع خط"
 
 #. Author of the plugin
 msgid "Mehrdad Dindar"
@@ -78,11 +154,15 @@ msgstr "مهرداد دیندار"
 msgid "msg"
 msgstr "پیغام"
 
-#: admin/class-vanak-admin.php:167
+#: admin/class-vanak-admin.php:311
 msgid "Options"
 msgstr "گزینه ها"
 
-#: admin/class-vanak-admin.php:178
+#: public/class-vanak-public.php:113
+msgid "Order Details"
+msgstr "جزئیات سفارش"
+
+#: admin/class-vanak-admin.php:322
 msgid "Order Submitted"
 msgstr "سفارش ثبت شده"
 
@@ -90,13 +170,46 @@ msgstr "سفارش ثبت شده"
 msgid "Please activate Woocommerce first."
 msgstr "لطفا ابتدا ووکامرس را فعال کنید."
 
-#: admin/class-vanak-admin.php:161
+#: admin/class-vanak-admin.php:369 admin/class-vanak-admin.php:425
+msgid "Please enter the licence key from the <code>Zhaket</code> here."
+msgstr ""
+"لطفاً لایسنس محصول را از <code>Zhaket</code> دریافت و در اینجا وارد کنید."
+
+#: admin/class-vanak-admin.php:418
+msgid ""
+"Please enter the product license to activate and use the plugin and then "
+"refresh the page"
+msgstr ""
+"لطفا جهت فعال سازی و استفاده از افزونه، لایسنس محصول را وارد نمایید و سپس "
+"صفحه را رفرش کنید"
+
+#: admin/class-vanak-admin.php:300
 msgid "Please enter the token received from the <code>BotFather</code> here."
 msgstr "لطفا توکن دریافتی از <code>BotFather</code> را اینجا وارد کنید."
 
-#: admin/class-vanak-admin.php:186
+#: includes/nuxy/settings/view/header.php:55
+msgid "Save Settings"
+msgstr "ذخیره تغییرات"
+
+#: includes/nuxy/metaboxes/metabox.php:270
+msgid "Settings copied to buffer"
+msgstr "تنظیمات در بافر کپی شد"
+
+#: includes/nuxy/metaboxes/metabox.php:274
+msgid "Sorry, no matching options."
+msgstr "با عرض پوزش، هیچ گزینه منطبقی وجود ندارد."
+
+#: admin/class-vanak-admin.php:335
 msgid "Status"
 msgstr "وضعیت"
+
+#: includes/nuxy/metaboxes/metabox.php:264
+msgid "Text Align"
+msgstr "تراز متن"
+
+#: includes/nuxy/metaboxes/metabox.php:266
+msgid "Text transform"
+msgstr "تبدیل متن"
 
 #. Description of the plugin
 #| msgid ""
@@ -124,33 +237,51 @@ msgstr ""
 "با بهره‌گیری از این افزونه، قادر خواهید بود تا مدیریت کسب‌وکار آنلاین خود را "
 "بهبود داده و ارتباط بهتری با مشتریان و سفارش‌ها برقرار نمایید."
 
-#: admin/class-vanak-admin.php:151
+#: admin/class-vanak-admin.php:362
+msgid "The product is activated and you can use all the features"
+msgstr "محصول فعال شده و میتوانید از تمام قابلیت ها استفاده نمایید"
+
+#: admin/class-vanak-admin.php:290
 msgid "To do this, follow the steps below:"
 msgstr "برای این کار مراحل زیر را دنبال کنید:"
 
-#: admin/class-vanak-admin.php:159
+#: admin/class-vanak-admin.php:298
 msgid "Token"
 msgstr "توکن"
 
 #. Name of the plugin
-#: admin/class-vanak-admin.php:116 admin/class-vanak-admin.php:117
-#: admin/class-vanak-admin.php:127
+#: admin/class-vanak-admin.php:257 admin/class-vanak-admin.php:258
+#: admin/class-vanak-admin.php:268 admin/class-vanak-admin.php:385
+#: admin/class-vanak-admin.php:386 admin/class-vanak-admin.php:396
 msgid "Vanak"
 msgstr "ونک"
 
-#: admin/class-vanak-admin.php:126
+#: admin/class-vanak-admin.php:267 admin/class-vanak-admin.php:395
 msgid "Vanak Dashboard"
 msgstr "داشبورد ونک"
 
-#: admin/class-vanak-admin.php:149
+#: includes/nuxy/metaboxes/metabox.php:269
+msgid ""
+"WARNING! This will overwrite all existing option values, please proceed with "
+"caution!"
+msgstr ""
+"هشدار! استفاده از این قابلیت همه تنظیمات موجود را بازنویسی می کند، لطفاً با "
+"احتیاط ادامه دهید!"
+
+#: admin/class-vanak-admin.php:288 admin/class-vanak-admin.php:361
+#: admin/class-vanak-admin.php:417
 msgid "Welcome to Vanak"
 msgstr "به ونک خوش آمدید"
 
-#: admin/class-vanak-admin.php:197
+#: includes/nuxy/metaboxes/metabox.php:258
+msgid "Word spacing"
+msgstr "فاصله کلمات"
+
+#: admin/class-vanak-admin.php:346
 msgid "your connection is not secure"
 msgstr "اتصال شما امن نیست"
 
-#: admin/class-vanak-admin.php:197
+#: admin/class-vanak-admin.php:346
 msgid "your connection is secure"
 msgstr "اتصال شما امن است"
 
