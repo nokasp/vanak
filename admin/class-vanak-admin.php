@@ -103,116 +103,13 @@ class Vanak_Admin {
     public function options_page($setups)
     {
 
-        $ssl = false;
-        if (!empty($_SERVER['HTTPS'])) {
-            $ssl = true;
-        }
+		if (get_option("vanak_license")){
+			$setups[] = $this->show_fields();
+		} else {
+			$setups[] = $this->show_license();
+		}
 
-        $setups[] = array(
-            /*
-             * Here we specify option name. It will be a key for storing in wp_options table
-             */
-            'option_name' => 'vanak_settings',
-            'admin_bar_title' => esc_html__('Vanak', 'vanak'),
-            'title' => esc_html__("Vanak", "vanak"),
-            'sub_title' => esc_html__('by Mehrdad Dindar', 'vanak'),
-            'logo' => VANAK_URL . 'admin/img/bot.svg',
-
-            /*
-             * Next we add a page to display our awesome settings.
-             * All parameters are required and same as WordPress add_menu_page.
-             */
-            'page' => array(
-                'page_title' => esc_html__("Vanak Dashboard", "vanak"),
-                'menu_title' => esc_html__("Vanak", "vanak"),
-                'menu_slug' => 'vanak-dashboard',
-                'icon' => 'dashicons-smiley',
-                'position' => 59,
-            ),
-
-            /*
-             * And Our fields to display on a page. We use tabs to separate settings on groups.
-             */
-            'fields' => array(
-                // Even single tab should be specified
-                'bot_connection' => array(
-                    // And its name obviously
-                    'name' => esc_html__('Connection', 'vanak'),
-                    'icon' => 'fas fa-ethernet',
-                    'fields' => array(
-                        'notification_message' => array(
-                            'type' => 'notification_message',
-                            'image' => VANAK_URL . 'admin/img/bot.svg',
-                            'description' =>
-                                sprintf(
-                                    '<h1>%s</h1><p>%s</p><p>%s<ol><li>%s</li><li>%s</li><li>%s</li></ol></p>',
-                                    __('Welcome to Vanak', 'vanak'),
-                                    __('By using this plugin, you will be informed about the details of the order as soon as the order is placed', 'vanak'),
-                                    __('To do this, follow the steps below:', 'vanak'),
-                                    __('Create a new bot with the help of <code>BotFather</code>', 'vanak'),
-                                    __('Enter the chat page with the bot and send the <code>/start</code>', 'vanak'),
-                                    __('In the last step, to communicate between the bot and the plugin, enter and save the token in the field below', 'vanak')
-                                ),
-                        ),
-                        'token' => array(
-                            'type' => 'text',
-                            'label' => esc_html__("Token", "vanak"),
-                            'value' => get_option("vanak_token"),
-                            'description' => __("Please enter the token received from the <code>BotFather</code> here.", "vanak"),
-                        )
-                    )
-                ),
-                'bot_options' => array(
-                    // And its name obviously
-                    'name' => esc_html__('Options', 'vanak'),
-                    'icon' => 'fas fa-tasks',
-                    'fields' => array(
-                        'admin_login' => array(
-                            'type' => 'checkbox',
-                            'label' => esc_html__("Admin Login", "vanak"),
-                            'description' => __("Find out about the login of managers to the management counter.", "vanak"),
-                            'group' => 'started'
-                        ),
-                        'order_submitted' => array(
-                            'type' => 'checkbox',
-                            'label' => esc_html__("Order Submitted", "vanak"),
-                            'description' => __("Get notified as soon as you place a new order.", "vanak"),
-                        ),
-                        'comment_submitted' => array(
-                            'type' => 'checkbox',
-                            'label' => esc_html__("Comment Submitted", "vanak"),
-                            'description' => __("Get notified as soon as a new comment is posted.", "vanak"),
-                            'group' => 'ended'
-                        ),
-                    )
-                ),
-                'bot_status' => array(
-                    // And its name obviously
-                    'name' => esc_html__('Status', 'vanak'),
-                    'icon' => 'fas fa-compass',
-                    'fields' => array(
-                        'notification_message' => array(
-                            'type' => 'notification_message',
-                            'image' => VANAK_URL . 'admin/img/ssl.svg',
-                            'description' =>
-                                sprintf(
-                                    '<h1>%s</h1><p class="alert %s">%s</p>',
-                                    __('Check SSL', 'vanak'),
-                                    $ssl ? "alert-success" : "alert-warning",
-                                    $ssl ? __('your connection is secure', 'vanak') : __('your connection is not secure', 'vanak')
-                                ),
-                        ),
-                    )
-                ),
-
-
-                /*
-                 * Other tabs you can add below
-                 */
-            )
-        );
-
-        return $setups;
+		return $setups;
     }
 
 	public function welcome()
@@ -294,4 +191,243 @@ class Vanak_Admin {
 		}
 	}
 
+	public function nuxyCheck()
+	{
+		$request_body = file_get_contents( 'php://input' );
+		$request_body = json_decode( $request_body, true );
+		$licence = $request_body['install_licence']['fields']['licence']['value'];
+
+		if (!empty($licence)){
+			$this->installLicence($licence);
+		}
+	}
+
+	private function installLicence($licence)
+	{
+		$produc_token = '97427de1-6625-47e2-9971-7276a9ca1b94';
+
+		$result = Zhaket_License::install($licence, $produc_token);
+
+		if ($result->status=='successful') {
+			update_option("vanak_license", true);
+			update_option("vanak_license_message", $result->message);
+			$this->setSchedule();
+		} else {
+			$this->licenceFailed($result->message);
+		}
+
+	}
+
+	public function setSchedule()
+	{
+		if ( ! wp_next_scheduled( 'vanak_guard_check_hook' ) ) {
+			wp_schedule_event( time(), 'every_minute', 'vanak_guard_check_hook' );
+		}
+	}
+
+	private function licenceFailed($message)
+	{
+		// License not installed / show message
+		if (!is_object($message)) {
+			update_option("vanak_license_message", $message);
+		} else {
+			$msg = [];
+			foreach ($message as $all_message) {
+				foreach ($all_message as $mesag) {
+					$msg[] = $mesag.'<br>';
+				}
+			}
+			update_option("vanak_license_message", maybe_serialize($msg));
+		}
+		update_option("vanak_license", false);
+	}
+
+	private function show_fields()
+	{
+		$ssl = false;
+		if (!empty($_SERVER['HTTPS'])) {
+			$ssl = true;
+		}
+
+		return array(
+			/*
+			 * Here we specify option name. It will be a key for storing in wp_options table
+			 */
+			'option_name' => 'vanak_settings',
+			'admin_bar_title' => esc_html__('Vanak', 'vanak'),
+			'title' => esc_html__("Vanak", "vanak"),
+			'sub_title' => esc_html__('by Mehrdad Dindar', 'vanak'),
+			'logo' => VANAK_URL . 'admin/img/bot.svg',
+
+			/*
+			 * Next we add a page to display our awesome settings.
+			 * All parameters are required and same as WordPress add_menu_page.
+			 */
+			'page' => array(
+				'page_title' => esc_html__("Vanak Dashboard", "vanak"),
+				'menu_title' => esc_html__("Vanak", "vanak"),
+				'menu_slug' => 'vanak-dashboard',
+				'icon' => 'dashicons-smiley',
+				'position' => 59,
+			),
+
+			/*
+			 * And Our fields to display on a page. We use tabs to separate settings on groups.
+			 */
+			'fields' => array(
+				'bot_connection' => array(
+					// And its name obviously
+					'name' => esc_html__('Connection', 'vanak'),
+					'icon' => 'fas fa-ethernet',
+					'fields' => array(
+						'notification_message' => array(
+							'type' => 'notification_message',
+							'image' => VANAK_URL . 'admin/img/bot.svg',
+							'description' =>sprintf(
+								'<h1>%s</h1><p>%s</p><p>%s<ol><li>%s</li><li>%s</li><li>%s</li></ol></p>',
+								__('Welcome to Vanak', 'vanak'),
+								__('By using this plugin, you will be informed about the details of the order as soon as the order is placed', 'vanak'),
+								__('To do this, follow the steps below:', 'vanak'),
+								__('Create a new bot with the help of <code>BotFather</code>', 'vanak'),
+								__('Enter the chat page with the bot and send the <code>/start</code>', 'vanak'),
+								__('In the last step, to communicate between the bot and the plugin, enter and save the token in the field below', 'vanak')
+							),
+						),
+						'token' => array(
+							'type' => 'text',
+							'label' => esc_html__("Token", "vanak"),
+							'value' => get_option("vanak_token"),
+							'description' => __("Please enter the token received from the <code>BotFather</code> here.", "vanak"),
+							'dependency' => array(
+								'key' => 'licence',
+								'section' => 'install_licence',
+								'value' => 'not_empty'
+							)
+						)
+					)
+				),
+				'bot_options' => array(
+					// And its name obviously
+					'name' => esc_html__('Options', 'vanak'),
+					'icon' => 'fas fa-tasks',
+					'fields' => array(
+						'admin_login' => array(
+							'type' => 'checkbox',
+							'label' => esc_html__("Admin Login", "vanak"),
+							'description' => __("Find out about the login of managers to the management counter.", "vanak"),
+							'group' => 'started'
+						),
+						'order_submitted' => array(
+							'type' => 'checkbox',
+							'label' => esc_html__("Order Submitted", "vanak"),
+							'description' => __("Get notified as soon as you place a new order.", "vanak"),
+						),
+						'comment_submitted' => array(
+							'type' => 'checkbox',
+							'label' => esc_html__("Comment Submitted", "vanak"),
+							'description' => __("Get notified as soon as a new comment is posted.", "vanak"),
+							'group' => 'ended'
+						),
+					)
+				),
+				'bot_status' => array(
+					// And its name obviously
+					'name' => esc_html__('Status', 'vanak'),
+					'icon' => 'fas fa-compass',
+					'fields' => array(
+						'notification_message' => array(
+							'type' => 'notification_message',
+							'image' => VANAK_URL . 'admin/img/ssl.svg',
+							'description' =>
+								sprintf(
+									'<h1>%s</h1><p class="alert %s">%s</p>',
+									__('Check SSL', 'vanak'),
+									$ssl ? "alert-success" : "alert-warning",
+									$ssl ? __('your connection is secure', 'vanak') : __('your connection is not secure', 'vanak')
+								),
+						),
+					)
+				),
+				'install_licence' => array(
+					// And its name obviously
+					'name' => esc_html__('Activation', 'vanak'),
+					'icon' => 'fas fa-fingerprint',
+					'fields' => array(
+						'activation_message' => array(
+							'type' => 'notification_message',
+							'image' => VANAK_URL . 'admin/img/bot.svg',
+							'description' => sprintf(
+								'<h1>%s</h1><p class="bg-success">%s</p>',
+								__('Welcome to Vanak', 'vanak'),
+								__('The product is activated and you can use all the features', 'vanak')
+							),
+						),
+						'licence' => array(
+							'type' => 'text',
+							'label' => esc_html__("Licence Key ", "vanak"),
+							'value' => get_option("licence_key"),
+							'description' => __("Please enter the licence key from the <code>Zhaket</code> here.",
+								"vanak"),
+						)
+					)
+				),
+			)
+		);
+	}
+
+	private function show_license()
+	{
+		return  array(
+			/*
+			 * Here we specify option name. It will be a key for storing in wp_options table
+			 */
+			'option_name' => 'vanak_settings',
+			'admin_bar_title' => esc_html__('Vanak', 'vanak'),
+			'title' => esc_html__("Vanak", "vanak"),
+			'sub_title' => esc_html__('by Mehrdad Dindar', 'vanak'),
+			'logo' => VANAK_URL . 'admin/img/bot.svg',
+
+			/*
+			 * Next we add a page to display our awesome settings.
+			 * All parameters are required and same as WordPress add_menu_page.
+			 */
+			'page' => array(
+				'page_title' => esc_html__("Vanak Dashboard", "vanak"),
+				'menu_title' => esc_html__("Vanak", "vanak"),
+				'menu_slug' => 'vanak-dashboard',
+				'icon' => 'dashicons-smiley',
+				'position' => 59,
+			),
+
+			/*
+			 * And Our fields to display on a page. We use tabs to separate settings on groups.
+			 */
+			'fields' => array(
+				// Even single tab should be specified
+				'install_licence' => array(
+					// And its name obviously
+					'name' => esc_html__('Activation', 'vanak'),
+					'icon' => 'fas fa-fingerprint',
+					'fields' => array(
+						'activation_message' => array(
+							'type' => 'notification_message',
+							'image' => VANAK_URL . 'admin/img/bot.svg',
+							'description' => sprintf(
+								'<h1>%s</h1><p>%s</p>',
+								__('Welcome to Vanak', 'vanak'),
+								__('Please enter the product license to activate and use the plugin and then refresh the page', 'vanak')
+							),
+						),
+						'licence' => array(
+							'type' => 'text',
+							'label' => esc_html__("Licence Key ", "vanak"),
+							'value' => get_option("licence_key"),
+							'description' => __("Please enter the licence key from the <code>Zhaket</code> here.",
+								"vanak"),
+						)
+					)
+				)
+			));
+
+	}
 }
