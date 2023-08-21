@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://mehrdaddindar.ir
- * @since             0.2.1
+ * @since             0.2.2
  * @package           Vanak
  *
  * @wordpress-plugin
  * Plugin Name:       Vanak
  * Plugin URI:        https://mehrdaddindar.ir/vanak
  * Description:       The 'Notify via Bale for WooCommerce - Vanak' plugin is an efficient tool within WordPress that enables website administrators to establish communication with the Balachat messaging bot. With the use of this plugin, you can effortlessly receive notifications, updates, and details related to your WooCommerce orders through the Balachat messaging platform. By leveraging this plugin, you'll be capable of enhancing your online business management and establishing improved communication with customers and orders.
- * Version:           0.2.1
+ * Version:           0.2.2
  * Author:            Mehrdad Dindar
  * Author URI:        https://mehrdaddindar.ir
  * License:           GPL-2.0+
@@ -32,10 +32,10 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Currently plugin version.
- * Start at version 0.2.1 and use SemVer - https://semver.org
+ * Start at version 0.2.2 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'VANAK_VERSION', '0.2.1' );
+define( 'VANAK_VERSION', '0.2.2' );
 define("VANAK_URL", plugin_dir_url(__FILE__));
 define("VANAK_PATH", plugin_dir_path(__FILE__));
 
@@ -74,7 +74,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-vanak.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    0.2.1
+ * @since    0.2.2
  */
 function run_vanak() {
 
