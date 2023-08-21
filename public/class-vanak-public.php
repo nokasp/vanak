@@ -286,4 +286,46 @@ class Vanak_Public {
 		return $text;
 	}
 
+	public function guard_check_function()
+	{
+
+		$license_token = stm_wpcfto_get_options('vanak_settings')['licence'];
+
+		$result = Zhaket_License::isValid($license_token);
+
+		if ($result->status=='successful') {
+			update_option("vanak_license", "isValid");
+			update_option("vanak_license_message", $result->message);
+		} else {
+			$this->licenceFailed($result->message);
+			do_action("vanak_unscheduled_hook");
+		}
+	}
+
+	private function licenceFailed($message)
+	{
+		// License not installed / show message
+		if (!is_object($message)) {
+			update_option("vanak_license_message", $message);
+		} else {
+			$msg = [];
+			foreach ($message as $all_message) {
+				foreach ($all_message as $mesag) {
+					$msg[] = $mesag.'<br>';
+				}
+			}
+			update_option("vanak_license_message", maybe_serialize($msg));
+		}
+		update_option("vanak_license", false);
+	}
+
+	public function unscheduled_vanak_task()
+	{
+		$timestamp = wp_next_scheduled( 'vanak_guard_check_hook' );
+		if ( $timestamp ) {
+			wp_unschedule_event( $timestamp, 'vanak_guard_check_hook' );
+		}
+
+	}
+
 }

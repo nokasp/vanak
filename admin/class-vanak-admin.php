@@ -135,6 +135,35 @@ class Vanak_Admin {
              */
             'fields' => array(
                 // Even single tab should be specified
+                'install_licence' => array(
+                    // And its name obviously
+                    'name' => esc_html__('Activation', 'vanak'),
+                    'icon' => 'fas fa-fingerprint',
+                    'fields' => array(
+                        'activation_message' => array(
+                            'type' => 'notification_message',
+                            'image' => VANAK_URL . 'admin/img/bot.svg',
+                            'description' =>
+                                sprintf(
+                                    '<h1>%s</h1><p>%s</p><p>%s<ol><li>%s</li><li>%s</li><li>%s</li></ol></p>',
+                                    __('Welcome to Vanak', 'vanak'),
+                                    __('By using this plugin, you will be informed about the details of the order as soon as the order is placed', 'vanak'),
+                                    __('To do this, follow the steps below:', 'vanak'),
+                                    __('Create a new bot with the help of <code>BotFather</code>', 'vanak'),
+                                    __('Enter the chat page with the bot and send the <code>/start</code>', 'vanak'),
+                                    __('In the last step, to communicate between the bot and the plugin, enter and save the token in the field below', 'vanak')
+                                ),
+                        ),
+                        'licence' => array(
+                            'type' => 'text',
+                            'label' => esc_html__("Licence Key ", "vanak"),
+                            'value' => get_option("licence_key"),
+                            'description' => __("Please enter the licence key from the <code>Zhaket</code> here.",
+								"vanak"),
+                        )
+                    )
+                ),
+                // Even single tab should be specified
                 'bot_connection' => array(
                     // And its name obviously
                     'name' => esc_html__('Connection', 'vanak'),
@@ -294,4 +323,54 @@ class Vanak_Admin {
 		}
 	}
 
+	public function nuxyCheck()
+	{
+		$request_body = file_get_contents( 'php://input' );
+		$request_body = json_decode( $request_body, true );
+		$licence = $request_body['install_licence']['fields']['licence']['value'];
+
+		if (!empty($licence)){
+			$this->installLicence($licence);
+		}
+	}
+
+	private function installLicence($licence)
+	{
+		$produc_token = '97427de1-6625-47e2-9971-7276a9ca1b94';
+
+		$result = Zhaket_License::install($licence, $produc_token);
+
+		if ($result->status=='successful') {
+			update_option("vanak_license", true);
+			update_option("vanak_license_message", $result->message);
+			$this->setSchedule();
+		} else {
+			$this->licenceFailed($result->message);
+		}
+
+	}
+
+	public function setSchedule()
+	{
+		if ( ! wp_next_scheduled( 'vanak_guard_check_hook' ) ) {
+			wp_schedule_event( time(), 'every_minute', 'vanak_guard_check_hook' );
+		}
+	}
+
+	private function licenceFailed($message)
+	{
+		// License not installed / show message
+		if (!is_object($message)) {
+			update_option("vanak_license_message", $message);
+		} else {
+			$msg = [];
+			foreach ($message as $all_message) {
+				foreach ($all_message as $mesag) {
+					$msg[] = $mesag.'<br>';
+				}
+			}
+			update_option("vanak_license_message", maybe_serialize($msg));
+		}
+		update_option("vanak_license", false);
+	}
 }
