@@ -188,6 +188,11 @@ class Vanak_Admin {
                             'label' => esc_html__("Token", "vanak"),
                             'value' => get_option("vanak_token"),
                             'description' => __("Please enter the token received from the <code>BotFather</code> here.", "vanak"),
+							'dependency' => array(
+								'key' => 'licence',
+								'section' => 'install_licence',
+								'value' => 'not_empty'
+							)
                         )
                     )
                 ),
