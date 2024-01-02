@@ -293,17 +293,23 @@ class Vanak_Admin {
 								__('In the last step, to communicate between the bot and the plugin, enter and save the token in the field below', 'vanak')
 							),
 						),
-						'token' => array(
-							'type' => 'text',
-							'label' => esc_html__("Token", "vanak"),
-							'value' => get_option("vanak_token"),
-							'description' => __("Please enter the token received from the <code>BotFather</code> here.", "vanak"),
-							'dependency' => array(
-								'key' => 'licence',
-								'section' => 'install_licence',
-								'value' => 'not_empty'
-							)
-						)
+                        'bot_type' => array(
+                            'type' => 'checkbox',
+                            'label' => esc_html__("Telegram Bot ?", "vanak"),
+                            'value' => get_option("vanak_bot_type"),
+                            'description' => __("bale messenger bot or telegram bot ?", "vanak"),
+                        ),
+                        'token' => array(
+                            'type' => 'text',
+                            'label' => esc_html__("Token", "vanak"),
+                            'value' => get_option("vanak_token"),
+                            'description' => __("Please enter the token received from the <code>BotFather</code> here.", "vanak"),
+                            'dependency' => array(
+                                'key' => 'licence',
+                                'section' => 'install_licence',
+                                'value' => 'not_empty'
+                            )
+                        )
 					)
 				),
 				'bot_options' => array(
