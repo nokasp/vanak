@@ -257,7 +257,7 @@ class Vanak_Admin {
 			'admin_bar_title' => esc_html__('Vanak', 'vanak'),
 			'title' => esc_html__("Vanak", "vanak"),
 			'sub_title' => esc_html__('by Mehrdad Dindar', 'vanak'),
-			'logo' => VANAK_URL . 'admin/img/bot.svg',
+			'logo' => VANAK_URL . 'admin/img/vanakLogo.svg',
 
 			/*
 			 * Next we add a page to display our awesome settings.
@@ -282,7 +282,7 @@ class Vanak_Admin {
 					'fields' => array(
 						'notification_message' => array(
 							'type' => 'notification_message',
-							'image' => VANAK_URL . 'admin/img/bot.svg',
+							'image' => VANAK_URL . 'admin/img/vanakLogo.svg',
 							'description' =>sprintf(
 								'<h1>%s</h1><p>%s</p><p>%s<ol><li>%s</li><li>%s</li><li>%s</li></ol></p>',
 								__('Welcome to Vanak', 'vanak'),
@@ -355,7 +355,7 @@ class Vanak_Admin {
 					'fields' => array(
 						'activation_message' => array(
 							'type' => 'notification_message',
-							'image' => VANAK_URL . 'admin/img/bot.svg',
+							'image' => VANAK_URL . 'admin/img/vanakLogo.svg',
 							'description' => sprintf(
 								'<h1>%s</h1><p class="bg-success">%s</p>',
 								__('Welcome to Vanak', 'vanak'),
