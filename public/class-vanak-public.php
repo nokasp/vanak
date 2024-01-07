@@ -10,6 +10,8 @@
  * @subpackage Vanak/public
  */
 
+use Telegram\Bot\Api;
+
 /**
  * The public-facing functionality of the plugin.
  *
@@ -108,14 +110,18 @@ class Vanak_Public {
 			$token = stm_wpcfto_get_options('vanak_settings')["token"];
 			$chatID = get_option("vanak_chat_id");
 
-			$bale = new balebot($token);
+            if (get_option("vanak_settings")["bot_type"]) {
+                $bot = new Api($token);
+            } else {
+                $bot = new balebot($token);
+            }
 			$inlineKeyboardoption =	[
-				$bale->buildInlineKeyBoardButton(__("Order Details","vanak"), get_site_url().'/wp-admin/post.php?post='
+				$bot->buildInlineKeyBoardButton(__("Order Details","vanak"), get_site_url().'/wp-admin/post.php?post='
 					.$order_id.'&action=edit','callback text' ),
 			];
-			$Keyboard = $bale->buildInlineKeyBoard($inlineKeyboardoption);
+			$Keyboard = $bot->buildInlineKeyBoard($inlineKeyboardoption);
 
-			$bale->sendText(array(
+			$bot->sendText(array(
 				'chat_id' => $chatID,
 				'text'	=>	$invoiceBody,
 				'reply_markup' =>$Keyboard

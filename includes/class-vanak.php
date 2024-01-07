@@ -99,10 +99,17 @@ class Vanak {
 	 */
 	private function load_dependencies() {
 
-		/**
-		 * Require JDF to project for jalali date format
-		 */
-		require_once(dirname(__FILE__) . '/jdf.php');
+        /**
+         * Require autoload to project for everything
+         */
+        $vendor_autoload_path = trailingslashit(dirname(VANAK_PATH)) . 'vendor/autoload.php';
+        if (file_exists($vendor_autoload_path)) {
+            require_once $vendor_autoload_path;
+        }
+        /**
+         * Require JDF to project for jalali date format
+         */
+        require_once(dirname(__FILE__) . '/jdf.php');
 
         /**
          * Include BaleApiLibrary to project

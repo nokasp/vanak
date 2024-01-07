@@ -10,6 +10,8 @@
  * @subpackage Vanak/admin
  */
 
+use Telegram\Bot\Api;
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -126,25 +128,38 @@ class Vanak_Admin {
 	private function setWebhook($token)
 	{
 		try {
-			$bale = new balebot($token);
-			$result = $bale->setWebhook(get_site_url());
+            if (get_option("vanak_settings")["bot_type"]) {
+                $bot = new Api($token);
+                $result = $bot->setWebhook(['url' => plugin_dir_url(dirname(__FILE__)).'includes/webhook.php']);
+            } else {
+                $bot = new balebot($token);
+                $result = $bot->setWebhook(plugin_dir_url(dirname(__FILE__)).'includes/webhook.php');
+            }
+//        var_dump($result);
+//        wp_die();
+//            var_dump($result);
 			if ($result['ok']) {
 
-				$getMe = $bale->getMe();
+				$getMe = $bot->getMe();
 				$bot_username = $getMe['result']['username'];
 
 				$is_change = update_option("vanak_bot_username", $getMe['result']['username']);
 
-				$chatDetail = $bale->getupdate();
+				$chatDetail = $bot->getupdate();
 				$this->setChatID($chatDetail);
 
 				if ($is_change) {
-					$bale->sendMessage(array(
+					$bot->sendMessage(array(
 						"chat_id" => get_option("vanak_chat_id"),
 						"text" => "به مدیریت ربات « ونک » خوش آمدید\n"."وبسایت ".get_site_url()." با موفقیت به ربات @".
 							$bot_username. " متصل شد"
 					));
-				}
+				} else {
+                    $bot->sendMessage(array(
+                        "chat_id" => get_option("vanak_chat_id"),
+                        "text" => "تنظیمات ذخیره شد\n"."وبسایت ".get_site_url()
+                    ));
+                }
 			} else {
 				delete_option("vanak_bot_username");
 				delete_option("vanak_chat_id");
@@ -296,7 +311,6 @@ class Vanak_Admin {
                         'bot_type' => array(
                             'type' => 'checkbox',
                             'label' => esc_html__("Telegram Bot ?", "vanak"),
-                            'value' => get_option("vanak_bot_type"),
                             'description' => __("bale messenger bot or telegram bot ?", "vanak"),
                         ),
                         'token' => array(
