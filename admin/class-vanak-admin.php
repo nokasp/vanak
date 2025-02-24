@@ -121,7 +121,7 @@ class Vanak_Admin {
 		$token = $request_body['bot_connection']['fields']['token']['value'];
 
 		if (!empty($token)){
-			$this->setWebhook($token);
+            $this->setWebhook($token);
 		}
     }
 

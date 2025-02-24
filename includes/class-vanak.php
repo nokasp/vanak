@@ -217,12 +217,12 @@ class Vanak {
 		} else {
 
             // action hook for ajax woocommerce_checkout_order_processed
-            if ( get_option('vanak_settings')["order_submitted"]) {
+            if ( get_option('vanak_settings')["order_submitted"] ?? false) {
                 $this->loader->add_action('woocommerce_checkout_order_processed', $plugin_public, 'sendNewOrder', 10, 1);
             }
 
             // action hook for new comments posted
-            if ( get_option('vanak_settings')["comment_submitted"]) {
+            if ( get_option('vanak_settings')["comment_submitted"] ?? false) {
                 $this->loader->add_action('comment_post', $plugin_public,'sendNewComment', 10, 3);
             }
 
