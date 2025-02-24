@@ -10,6 +10,8 @@
  * @subpackage Vanak/admin
  */
 
+use Telegram\Bot\Api;
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -119,32 +121,45 @@ class Vanak_Admin {
 		$token = $request_body['bot_connection']['fields']['token']['value'];
 
 		if (!empty($token)){
-			$this->setWebhook($token);
+            $this->setWebhook($token);
 		}
     }
 
 	private function setWebhook($token)
 	{
 		try {
-			$bale = new balebot($token);
-			$result = $bale->setWebhook(get_site_url());
+            if (get_option("vanak_settings")["bot_type"]) {
+                $bot = new Api($token);
+                $result = $bot->setWebhook(['url' => plugin_dir_url(dirname(__FILE__)).'includes/webhook.php']);
+            } else {
+                $bot = new balebot($token);
+                $result = $bot->setWebhook(plugin_dir_url(dirname(__FILE__)).'includes/webhook.php');
+            }
+//        var_dump($result);
+//        wp_die();
+//            var_dump($result);
 			if ($result['ok']) {
 
-				$getMe = $bale->getMe();
+				$getMe = $bot->getMe();
 				$bot_username = $getMe['result']['username'];
 
 				$is_change = update_option("vanak_bot_username", $getMe['result']['username']);
 
-				$chatDetail = $bale->getupdate();
+				$chatDetail = $bot->getupdate();
 				$this->setChatID($chatDetail);
 
 				if ($is_change) {
-					$bale->sendMessage(array(
+					$bot->sendMessage(array(
 						"chat_id" => get_option("vanak_chat_id"),
 						"text" => "به مدیریت ربات « ونک » خوش آمدید\n"."وبسایت ".get_site_url()." با موفقیت به ربات @".
 							$bot_username. " متصل شد"
 					));
-				}
+				} else {
+                    $bot->sendMessage(array(
+                        "chat_id" => get_option("vanak_chat_id"),
+                        "text" => "تنظیمات ذخیره شد\n"."وبسایت ".get_site_url()
+                    ));
+                }
 			} else {
 				delete_option("vanak_bot_username");
 				delete_option("vanak_chat_id");
@@ -257,7 +272,7 @@ class Vanak_Admin {
 			'admin_bar_title' => esc_html__('Vanak', 'vanak'),
 			'title' => esc_html__("Vanak", "vanak"),
 			'sub_title' => esc_html__('by Mehrdad Dindar', 'vanak'),
-			'logo' => VANAK_URL . 'admin/img/bot.svg',
+			'logo' => VANAK_URL . 'admin/img/vanakLogo.svg',
 
 			/*
 			 * Next we add a page to display our awesome settings.
@@ -282,7 +297,7 @@ class Vanak_Admin {
 					'fields' => array(
 						'notification_message' => array(
 							'type' => 'notification_message',
-							'image' => VANAK_URL . 'admin/img/bot.svg',
+							'image' => VANAK_URL . 'admin/img/vanakLogo.svg',
 							'description' =>sprintf(
 								'<h1>%s</h1><p>%s</p><p>%s<ol><li>%s</li><li>%s</li><li>%s</li></ol></p>',
 								__('Welcome to Vanak', 'vanak'),
@@ -293,17 +308,22 @@ class Vanak_Admin {
 								__('In the last step, to communicate between the bot and the plugin, enter and save the token in the field below', 'vanak')
 							),
 						),
-						'token' => array(
-							'type' => 'text',
-							'label' => esc_html__("Token", "vanak"),
-							'value' => get_option("vanak_token"),
-							'description' => __("Please enter the token received from the <code>BotFather</code> here.", "vanak"),
-							'dependency' => array(
-								'key' => 'licence',
-								'section' => 'install_licence',
-								'value' => 'not_empty'
-							)
-						)
+                        'bot_type' => array(
+                            'type' => 'checkbox',
+                            'label' => esc_html__("Telegram Bot ?", "vanak"),
+                            'description' => __("bale messenger bot or telegram bot ?", "vanak"),
+                        ),
+                        'token' => array(
+                            'type' => 'text',
+                            'label' => esc_html__("Token", "vanak"),
+                            'value' => get_option("vanak_token"),
+                            'description' => __("Please enter the token received from the <code>BotFather</code> here.", "vanak"),
+                            'dependency' => array(
+                                'key' => 'licence',
+                                'section' => 'install_licence',
+                                'value' => 'not_empty'
+                            )
+                        )
 					)
 				),
 				'bot_options' => array(
@@ -355,7 +375,7 @@ class Vanak_Admin {
 					'fields' => array(
 						'activation_message' => array(
 							'type' => 'notification_message',
-							'image' => VANAK_URL . 'admin/img/bot.svg',
+							'image' => VANAK_URL . 'admin/img/vanakLogo.svg',
 							'description' => sprintf(
 								'<h1>%s</h1><p class="bg-success">%s</p>',
 								__('Welcome to Vanak', 'vanak'),

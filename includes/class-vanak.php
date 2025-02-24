@@ -99,10 +99,17 @@ class Vanak {
 	 */
 	private function load_dependencies() {
 
-		/**
-		 * Require JDF to project for jalali date format
-		 */
-		require_once(dirname(__FILE__) . '/jdf.php');
+        /**
+         * Require autoload to project for everything
+         */
+        $vendor_autoload_path = trailingslashit(dirname(VANAK_PATH)) . 'vendor/autoload.php';
+        if (file_exists($vendor_autoload_path)) {
+            require_once $vendor_autoload_path;
+        }
+        /**
+         * Require JDF to project for jalali date format
+         */
+        require_once(dirname(__FILE__) . '/jdf.php');
 
         /**
          * Include BaleApiLibrary to project
@@ -204,23 +211,24 @@ class Vanak {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		//        action hook for ajax woocommerce_checkout_order_processed
-//		if ( get_option('vanak_settings')["order_submitted"]) {
-			$this->loader->add_action('woocommerce_checkout_order_processed', $plugin_public, 'sendNewOrder', 10, 1);
-//		}
-
-		//        action hook for new comments posted
-//		if ( get_option('vanak_settings')["comment_submitted"]) {
-            $this->loader->add_action('comment_post', $plugin_public,'sendNewComment', 10, 3);
-//        }
-
 		if ( !get_option('vanak_license')) {
 			// action hook for unscheduled hook
 			$this->loader->add_action('vanak_unscheduled_hook', $plugin_public,'unscheduled_vanak_task');
-		}
-			// action hook for guard check
-			$this->loader->add_action('vanak_guard_check_hook', $plugin_public, 'guard_check_function');
+		} else {
 
+            // action hook for ajax woocommerce_checkout_order_processed
+            if ( get_option('vanak_settings')["order_submitted"] ?? false) {
+                $this->loader->add_action('woocommerce_checkout_order_processed', $plugin_public, 'sendNewOrder', 10, 1);
+            }
+
+            // action hook for new comments posted
+            if ( get_option('vanak_settings')["comment_submitted"] ?? false) {
+                $this->loader->add_action('comment_post', $plugin_public,'sendNewComment', 10, 3);
+            }
+
+            // action hook for guard check
+            $this->loader->add_action('vanak_guard_check_hook', $plugin_public, 'guard_check_function');
+        }
 
 	}
 
